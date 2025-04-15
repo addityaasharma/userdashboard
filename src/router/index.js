@@ -74,15 +74,9 @@ const router = createRouter({
           component: () => import('../views/Position.vue'),
         },
         {
-<<<<<<< HEAD
-          path: '/chart',
-          name: 'chart',
-          component: () => import('../views/Chart.vue')
-=======
           path:'/chart',
           name:'chart',
           component:()=>import('../views/Chart.vue')
->>>>>>> 5b6893f1be6274498343e18539cbb968a4459f8a
         },
       ]
     },
