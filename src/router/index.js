@@ -5,8 +5,23 @@ const router = createRouter({
   routes: [
     {
       path: '/login',
-      name:'login',
-      component:()=>import('/src/components/login.vue')
+      name: 'login',
+      component: () => import('/src/components/login.vue')
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../components/SignUp.vue')
+    },
+    {
+      path: '/frontpage',
+      name: 'frontpage',
+      component: () => import('/src/components/Frontpage.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../components/Logout.vue')
     },
     {
       path: '/',
@@ -19,12 +34,17 @@ const router = createRouter({
           component: () => import('@/views/Broker.vue'),
         },
         {
+          path: '/EditProfile',
+          name: 'EditProfile',
+          component: () => import('@/components/EditProfile.vue'),
+        },
+        {
           path: '/mystrategies',
           name: 'mystrategies',
           component: () => import('../views/MyStrategies.vue'),
         },
         {
-          path: '/dashboard',
+          path: '/',
           name: 'dashboard',
           component: () => import('@/views/Dashboard.vue'),
         },
@@ -49,10 +69,10 @@ const router = createRouter({
           component: () => import('../views/Position.vue'),
         },
         {
-          path:'/chart',
-          name:'chart',
-          component:()=>import('../views/Chart.vue')
-        }
+          path: '/chart',
+          name: 'chart',
+          component: () => import('../views/Chart.vue')
+        },
       ]
     },
 

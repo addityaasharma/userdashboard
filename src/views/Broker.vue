@@ -70,8 +70,8 @@
     </div>
 
     <!-- Edit Modal -->
-    <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div class="bg-white p-6 rounded-xl w-[90%] max-w-md">
+    <div v-if="showEditModal" class="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-xl w-[60%] max-w-md border-4 shadow-lg">
         <h2 class="text-lg font-semibold mb-4">Edit Broker</h2>
         <label class="block mb-2 text-sm">Name</label>
         <input v-model="editableBroker.name" class="w-full border border-gray-300 rounded p-2 mb-4" />

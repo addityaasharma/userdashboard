@@ -16,18 +16,23 @@
       <div class="space-y-4">
         <div>
           <label class="text-sm text-gray-400">Full Name</label>
-          <input v-model="profile.name" class="w-full mt-1 bg-zinc-800 text-white p-2 rounded-lg outline-none focus:ring-2 focus:ring-purple-500" />
+          <input v-model="profile.name"
+            class="w-full mt-1 bg-zinc-800 text-white p-2 rounded-lg outline-none focus:ring-2 focus:ring-purple-500" />
         </div>
 
         <div>
           <label class="text-sm text-gray-400">Email</label>
-          <input v-model="profile.email" class="w-full mt-1 bg-zinc-800 text-white p-2 rounded-lg outline-none focus:ring-2 focus:ring-purple-500" />
+          <input v-model="profile.email"
+            class="w-full mt-1 bg-zinc-800 text-white p-2 rounded-lg outline-none focus:ring-2 focus:ring-purple-500" />
         </div>
       </div>
 
       <div class="mt-6 flex justify-end space-x-4">
         <button @click="emit('close')" class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600">Cancel</button>
-        <button @click="saveProfile" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold">Save</button>
+        <button @click="saveProfile"
+          class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold">Save</button>
+          <button @click="editProfile"
+          class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg font-semibold">Edit Profile</button>
       </div>
     </div>
   </div>
@@ -36,11 +41,13 @@
 <script setup>
 import { ref } from 'vue'
 import { XIcon } from 'lucide-vue-next' // Make sure it's installed: npm i lucide-vue-next
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   isOpen: Boolean
 })
 
+const router = useRouter()
 const emit = defineEmits(['close'])
 
 const profile = ref({
@@ -52,5 +59,10 @@ const profile = ref({
 function saveProfile() {
   console.log('Profile saved:', profile.value)
   emit('close')
+}
+
+const editProfile = () =>{
+  router.push({name:'EditProfile'})
+  emit('close');
 }
 </script>

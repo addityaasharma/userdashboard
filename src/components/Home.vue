@@ -6,8 +6,8 @@
       'bg-white text-gray-900 w-64 md:relative md:translate-x-0 fixed top-0 left-0 h-full z-30 transform transition-transform duration-300 ease-in-out shadow-md',
       isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
     ]">
-      <div class="h-16 flex items-center justify-between border-b border-gray-200 px-4">
-        <h1 class="text-lg font-semibold">{{ route.name }}</h1>
+      <div class="h-16 flex items-center justify-between border-b border-gray-200 px-12">
+        <h1 class="text-5xl text-center sm:text-2xl font-extrabold text-gray-900 drop-shadow-lg animate__animated animate__fadeIn animate__delay-1s">Trade <span class="text-center text-amber-600">Craft</span></h1>
         <button class="md:hidden text-gray-600 text-xl" @click="isSidebarOpen = false">✕</button>
       </div>
 
@@ -114,15 +114,15 @@ function closeModal() {
   isModalOpen.value = false
 }
 const links = [
-  { name: "Dashboard", to: "/dashboard" },
+  { name: "Dashboard", to: "/" },
   { name: "My Strategies", to: "/mystrategies" },
   { name: "Strategies", to: "/strategies" },
   { name: "Broker", to: "/broker" },
   { name: "Position", to: "/position" },
   { name: "Order", to: "/order" },
   { name: "Videos", to: "/videos" },
-  { name: "Login", to: "/login" },
   { name: "Chart", to: "/chart" },
+  { name:"LogOut", to : '/logout'}
 ];
 
 const closeSidebarOnMobile = () => {
@@ -134,7 +134,7 @@ const closeSidebarOnMobile = () => {
 onMounted(() => {
   const token = localStorage.getItem('token');
   if (!token) {
-    router.push('/login');
+    router.push('/frontpage');
   }
 });
 function toggleNotification() {
