@@ -1,56 +1,81 @@
-<script setup>
-// import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const id= ref({
-    mail:"",
-    name:"",
-    number:""
-});
-const router = useRouter();
-const handleSubmit = () =>{
-    console.log(id.value);
-    id.value={
-        mail:"",
-        name:"",
-        number:""
-    }
-    localStorage.setItem('token','123456')
-
-    router.push('/dashboard')
-}
-</script>
-
 <template>
-    <div class="form h-72 w-lg border-2 border-black rounded-lg relative left-[50%] top-4 translate-x-[-50%] bg-amber-50">
-        <form action="" @submit.prevent="handleSubmit">
-            <input 
-            type="text" 
-            v-model="id.name"
-            placeholder="Enter Your Name"
-            class="w-[95%] h-8 border-1 border-black mt-2 ml-[2%] text-black rounded-t-md">
-
-            <input 
-            type="text" 
-            v-model="id.mail"
-            placeholder="Enter Your email"
-            class="w-[95%] h-8 border-1 border-black ml-[2%] text-black">
-
-            <input 
-            type="text" 
-            v-model="id.number"
-            placeholder="Enter Your Number"
-            class="w-[95%] h-8 border-1 border-black ml-[2%] text-black rounded-b-md">
-
-            <button 
-            type="submit" 
-            class="bg-amber-300 border-2 border-amber-500 relative left-[50%] top-4 translate-x-[-50%]">Submit</button>
+    <div class="min-h-screen bg-gradient-to-r from-amber-100 via-yellow-200 to-orange-100 flex items-center justify-center px-4 py-10">
+      <div class="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8 border border-amber-200 relative">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back 👋</h2>
+        
+        <form @submit.prevent="handleSubmit" class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input
+              type="text"
+              v-model="id.name"
+              placeholder="John Doe"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+          </div>
+  
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              v-model="id.mail"
+              placeholder="you@example.com"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+          </div>
+  
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <input
+              type="text"
+              v-model="id.number"
+              placeholder="9876543210"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+          </div>
+  
+          <button
+            type="submit"
+            class="w-full bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 rounded-lg transition duration-300"
+          >
+            Login
+          </button>
         </form>
+  
+        <p class="text-sm text-gray-500 text-center mt-6">Don't have an account? <a href="#" class="text-amber-600 hover:underline">Register</a></p>
+      </div>
     </div>
-</template>
-
-
-<style lang="scss" scoped>
-
-</style>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  
+  const id = ref({
+    mail: '',
+    name: '',
+    number: ''
+  });
+  
+  const router = useRouter();
+  
+  const handleSubmit = () => {
+    console.log(id.value);
+  
+    // Reset form
+    id.value = {
+      mail: '',
+      name: '',
+      number: ''
+    };
+  
+    // Mock login
+    localStorage.setItem('token', '123456');
+    router.push('/');
+  };
+  </script>
+  
+  <style scoped>
+  /* Optional transitions or custom styles */
+  </style>
+  
