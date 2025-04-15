@@ -123,6 +123,7 @@ const links = [
   { name: "Videos", to: "/videos" },
   { name: "Login", to: "/login" },
   { name: "Chart", to: "/chart" },
+  {name: "SignUp", to : "/signup"}
 ];
 
 const closeSidebarOnMobile = () => {
