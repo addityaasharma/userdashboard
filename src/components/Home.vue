@@ -1,165 +1,158 @@
 <template>
-  <div class="bg-white min-h-screen p-4 sm:p-6 text-gray-800">
-    <!-- Add New Broker Button -->
-    <div class="mb-4 flex justify-between items-center flex-wrap gap-4">
-      <h1 class="text-lg sm:text-xl font-semibold">Brokers</h1>
-      <button
-        class="bg-blue-600 text-white px-4 py-2 text-sm sm:text-base rounded-lg shadow hover:bg-blue-700 transition">
-        Add New Broker
-      </button>
-    </div>
+  <div class="flex h-screen overflow-hidden bg-gradient-to-br from-white via-gray-100 to-white">
 
-    <!-- Brokers Table -->
-    <div class="overflow-x-auto rounded-lg shadow-md border border-gray-200">
-      <table class="min-w-full bg-white text-gray-800 hidden md:table">
-        <thead>
-          <tr class="bg-gray-100 uppercase text-xs sm:text-sm">
-            <th class="py-3 px-4 text-left">Broker</th>
-            <th class="py-3 px-4 text-left">Broker UserId</th>
-            <th class="py-3 px-4 text-left">Token Date</th>
-            <th class="py-3 px-4 text-center">Active</th>
-            <th class="py-3 px-4 text-center">Connect</th>
-            <th class="py-3 px-4 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="text-sm">
-          <tr v-for="(broker, index) in brokers" :key="index"
-            class="border-b border-gray-200 hover:bg-gray-50 transition">
-            <td class="py-3 px-4 text-left flex items-center">
-              <span class="ml-2 font-medium">{{ broker.name }}</span>
-            </td>
-            <td class="py-3 px-4 text-left">{{ broker.userId }}</td>
-            <td class="py-3 px-4 text-left">{{ broker.tokenDate }}</td>
-            <td class="py-3 px-4 text-center">
-              <label class="flex justify-center cursor-pointer">
-                <input type="checkbox" v-model="broker.active" class="toggle-switch" />
-              </label>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <button class="text-blue-600 hover:underline">🔗 Connect</button>
-            </td>
-            <td class="py-3 px-4 text-center flex flex-col sm:flex-row gap-1 sm:gap-2 justify-center items-center">
-              <button @click="openEditModal(broker)" class="text-blue-600 hover:underline">✏️ Edit</button>
-              <button class="text-indigo-600 hover:underline">📜 Orders/Positions</button>
-              <button @click="openDeleteModal(broker)" class="text-red-500 hover:underline">🗑 Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Mobile Responsive Card Layout -->
-      <div class="md:hidden space-y-4">
-        <div v-for="(broker, index) in brokers" :key="index" class="border border-gray-200 rounded-lg p-4 shadow-sm">
-          <div class="mb-2"><strong>Broker:</strong> {{ broker.name }}</div>
-          <div class="mb-2"><strong>User ID:</strong> {{ broker.userId }}</div>
-          <div class="mb-2"><strong>Token Date:</strong> {{ broker.tokenDate }}</div>
-          <div class="mb-2 flex items-center gap-2">
-            <strong>Active:</strong>
-            <input type="checkbox" v-model="broker.active" class="toggle-switch" />
-          </div>
-          <div class="mb-2">
-            <button class="text-blue-600 hover:underline">🔗 Connect</button>
-          </div>
-          <div class="flex flex-col sm:flex-row gap-2 mt-2">
-            <button @click="openEditModal(broker)" class="text-blue-600 hover:underline">✏️ Edit</button>
-            <button class="text-indigo-600 hover:underline">📜 Orders/Positions</button>
-            <button @click="openDeleteModal(broker)" class="text-red-500 hover:underline">🗑 Delete</button>
-          </div>
-        </div>
+    <!-- Sidebar -->
+    <aside :class="[
+      'bg-white text-gray-900 w-64 md:relative md:translate-x-0 fixed top-0 left-0 h-full z-30 transform transition-transform duration-300 ease-in-out shadow-md',
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+    ]">
+      <div class="h-16 flex items-center justify-between border-b border-gray-200 px-4">
+        <h1 class="text-lg font-semibold">{{ route.name }}</h1>
+        <button class="md:hidden text-gray-600 text-xl" @click="isSidebarOpen = false">✕</button>
       </div>
-    </div>
 
-    <!-- Edit Modal -->
-    <div v-if="showEditModal" class="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
-      <div class="bg-white p-6 rounded-xl w-[60%] max-w-md border-4 shadow-lg">
-        <h2 class="text-lg font-semibold mb-4">Edit Broker</h2>
-        <label class="block mb-2 text-sm">Name</label>
-        <input v-model="editableBroker.name" class="w-full border border-gray-300 rounded p-2 mb-4" />
-        <label class="block mb-2 text-sm">User ID</label>
-        <input v-model="editableBroker.userId" class="w-full border border-gray-300 rounded p-2 mb-4" />
-        <label class="block mb-2 text-sm">Token Date</label>
-        <input v-model="editableBroker.tokenDate" type="date" class="w-full border border-gray-300 rounded p-2 mb-4" />
-        <div class="flex justify-end gap-2">
-          <button @click="showEditModal = false" class="text-gray-500">Cancel</button>
-          <button @click="saveEdit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
-        </div>
-      </div>
-    </div>
+      <nav class="mt-6 flex flex-col items-center gap-2">
+        <RouterLink v-for="link in links" :key="link.to" :to="link.to"
+          class="block w-[90%] py-2 text-center rounded-md text-gray-700 hover:bg-gray-200 transition"
+          @click="closeSidebarOnMobile">
+          {{ link.name }}
+        </RouterLink>
+      </nav>
+    </aside>
 
-    <!-- Delete Modal -->
-    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div class="bg-white p-6 rounded-xl w-[90%] max-w-md text-center">
-        <h2 class="text-lg font-semibold mb-4">Delete Broker</h2>
-        <p>Are you sure you want to delete <strong>{{ editableBroker.name }}</strong>?</p>
-        <div class="mt-6 flex justify-center gap-4">
-          <button @click="showDeleteModal = false" class="text-gray-500">Cancel</button>
-          <button @click="confirmDelete" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+    <!-- Overlay for mobile -->
+    <div class="fixed inset-0 bg-black bg-opacity-30 z-20 md:hidden" v-if="isSidebarOpen"
+      @click="isSidebarOpen = false"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col bg-gradient-to-br from-white via-gray-50 to-white">
+
+      <!-- Header -->
+      <header class="flex items-center justify-between bg-white h-16 px-4 border-b border-gray-200 shadow-sm">
+        <button class="text-gray-700 md:hidden" @click="isSidebarOpen = !isSidebarOpen">
+          ☰
+        </button>
+
+        <h2 class="text-gray-900 text-xl font-bold">Hello Aditya</h2>
+
+        <div class="hidden md:flex gap-2">
+          <button @click="openModal(broker)"
+            class="text-gray-700 px-3 py-1 rounded border border-gray-300 hover:border-blue-400">
+            Add Broker
+          </button>
+
+
+          <!-- notification section  -->
+          <div class="relative">
+            <button class="text-gray-700 px-3 py-1 rounded border border-gray-300 hover:border-blue-400"
+              @click="toggleNotification">
+              🔔
+            </button>
+
+            <!-- Dropdown -->
+            <div v-if="isNotificationOpen"
+              class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+              <div class="p-4 text-sm text-gray-800 border-b font-semibold">Notifications</div>
+              <ul class="max-h-60 overflow-y-auto text-sm">
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">🔔 Broker connected successfully</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">✅ Strategy executed</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">📉 Market is down 2%</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">📈 New position opened</li>
+              </ul>
+              <div class="p-2 text-center border-t">
+                <button class="text-blue-600 hover:underline text-sm" @click="closeNotification">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="text-gray-700 px-3 py-1 rounded border border-gray-300 hover:border-blue-400"
+            @click="isProfileOpen = true">
+            Profile
+          </button>
         </div>
-      </div>
+      </header>
+
+      <!-- Profile Modal -->
+      <ProfileModal :isOpen="isProfileOpen" @close="isProfileOpen = false" />
+      <BrokerModal v-if="isModalOpen" :isOpen="isModalOpen" :broker="selectedBroker" @close="closeModal" />
+
+
+      <!-- Content -->
+      <main class="flex-1 overflow-y-auto p-4">
+        <RouterView />
+      </main>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useBrokerStore } from '@/stores/BrokerStore'
-import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute, RouterLink, RouterView } from 'vue-router';
+import ProfileModal from './ProfileModal.vue';
+import BrokerModal from './BrokerModal.vue';
 
-const brokerStore = useBrokerStore()
-const { brokers } = storeToRefs(brokerStore)
+const router = useRouter();
+const route = useRoute();
+const isSidebarOpen = ref(false);
+const isProfileOpen = ref(false);
+const isModalOpen = ref(false)
+const selectedBroker = ref(null)
+const isNotificationOpen = ref(false)
 
-const showEditModal = ref(false)
-const showDeleteModal = ref(false)
-const editableBroker = ref({})
 
-function openEditModal(broker) {
-  editableBroker.value = { ...broker }
-  showEditModal.value = true
+function openModal(broker = null) {
+  selectedBroker.value = broker || {
+    name: '',
+    userId: '',
+    tokenDate: '',
+    active: false
+  }
+  isModalOpen.value = true
 }
 
-function saveEdit() {
-  const index = brokers.value.findIndex(b => b.userId === editableBroker.value.userId)
-  if (index !== -1) brokers.value[index] = { ...editableBroker.value }
-  showEditModal.value = false
+function closeModal() {
+  isModalOpen.value = false
+}
+const links = [
+  { name: "Dashboard", to: "/" },
+  { name: "My Strategies", to: "/mystrategies" },
+  { name: "Strategies", to: "/strategies" },
+  { name: "Broker", to: "/broker" },
+  { name: "Position", to: "/position" },
+  { name: "Order", to: "/order" },
+  { name: "Videos", to: "/videos" },
+  { name: "Login", to: "/login" },
+  { name: "Chart", to: "/chart" },
+];
+
+const closeSidebarOnMobile = () => {
+  if (window.innerWidth < 768) {
+    isSidebarOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    router.push('/login');
+  }
+});
+function toggleNotification() {
+  isNotificationOpen.value = !isNotificationOpen.value
 }
 
-function openDeleteModal(broker) {
-  editableBroker.value = broker
-  showDeleteModal.value = true
-}
-
-function confirmDelete() {
-  const index = brokers.value.findIndex(b => b.userId === editableBroker.value.userId)
-  if (index !== -1) brokers.value.splice(index, 1)
-  showDeleteModal.value = false
+function closeNotification() {
+  isNotificationOpen.value = false
 }
 </script>
 
-<style>
-.toggle-switch {
-  appearance: none;
-  width: 40px;
-  height: 20px;
-  background: #ccc;
-  border-radius: 999px;
-  position: relative;
-  transition: background 0.3s;
+<style scoped lang="scss">
+main::-webkit-scrollbar {
+  display: none;
 }
-.toggle-switch:checked {
-  background: #2563eb;
-}
-.toggle-switch::before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 50%;
-  top: 2px;
-  left: 2px;
-  transition: transform 0.3s;
-}
-.toggle-switch:checked::before {
-  transform: translateX(20px);
+
+main {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
