@@ -122,11 +122,7 @@ const links = [
   { name: "Order", to: "/order" },
   { name: "Videos", to: "/videos" },
   { name: "Chart", to: "/chart" },
-<<<<<<< HEAD
   { name:"LogOut", to : '/logout'}
-=======
-  {name: "SignUp", to : "/signup"}
->>>>>>> 5b6893f1be6274498343e18539cbb968a4459f8a
 ];
 
 const closeSidebarOnMobile = () => {
