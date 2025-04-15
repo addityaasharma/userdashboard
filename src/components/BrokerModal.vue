@@ -65,4 +65,8 @@ function closeModal() {
 .toggle-switch:checked::before {
   transform: translateX(20px);
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> 5b6893f1be6274498343e18539cbb968a4459f8a

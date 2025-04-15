@@ -87,4 +87,8 @@
     // You can later connect this to an API call to update the profile in your backend
   }
   </script>
+<<<<<<< HEAD
   
+=======
+  
+>>>>>>> 5b6893f1be6274498343e18539cbb968a4459f8a
