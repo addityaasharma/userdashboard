@@ -19,6 +19,11 @@ const router = createRouter({
           component: () => import('@/views/Broker.vue'),
         },
         {
+          path: '/EditProfile',
+          name: 'EditProfile',
+          component: () => import('@/components/EditProfile.vue'),
+        },
+        {
           path: '/mystrategies',
           name: 'mystrategies',
           component: () => import('../views/MyStrategies.vue'),
