@@ -9,6 +9,11 @@ const router = createRouter({
       component:()=>import('/src/components/login.vue')
     },
     {
+      path:'/signup',
+      name:'signup',
+      component:()=>import('../components/SignUp.vue')
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import('@/components/Home.vue'),
@@ -57,7 +62,7 @@ const router = createRouter({
           path:'/chart',
           name:'chart',
           component:()=>import('../views/Chart.vue')
-        }
+        },
       ]
     },
 
